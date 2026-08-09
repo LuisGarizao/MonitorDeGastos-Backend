@@ -1,4 +1,4 @@
-from tracker.models import User, Expense, Plan
+from tracker.models import User, Expense
 from rest_framework import serializers
 
 
@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ["id", "username", "password", "email", "date_joined", "is_active"]
+        fields = ["id", "username", "first_name", "last_name","password", "email", "date_joined", "is_active", "is_staff", "is_superuser"]
         read_only_fields = ["id", "date_joined"]
     
     def create(self, validated_data):
@@ -30,15 +30,15 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class PlanSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Plan
-        fields = ["id", "expense_limit", "start_date", "end_date", "status", "user"]
-        read_only_fields = ["id", "user"]
+class UserListSerializer(serializers.ModelSerializer):
         
+    class Meta:
+        model = User
+        fields = ["id", "username", "email", "date_joined", "is_active"]
+        read_only_fields = fields
+
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = ["id", "type", "amount", "date", "plan"]
         read_only_fields = ["id", "amount", "date", "plan"]
-  
