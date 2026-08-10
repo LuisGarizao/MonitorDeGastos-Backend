@@ -1,7 +1,8 @@
 from uuid import uuid7
 from django.db import models
-from datetime import datetime
+from datetime import date
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid7, editable=False)
@@ -19,7 +20,7 @@ class ExpenseType(models.TextChoices):
 class Expense(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     type = models.CharField(choices=ExpenseType.choices, default=ExpenseType.OTHER, max_length=20)
-    amount = models.IntegerField(null=False)
-    date = models.DateTimeField(null=False, default=datetime.now)
+    amount = models.IntegerField(null=False, validators=[MinValueValidator(0)])
+    date = models.DateField(null=False, default=date.today)
     description = models.TextField()
     
