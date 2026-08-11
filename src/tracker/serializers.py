@@ -40,5 +40,5 @@ class UserListSerializer(serializers.ModelSerializer):
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
-        fields = ["id", "type", "amount", "date", "user"]
+        fields = ["id", "type", "amount", "date", "description"]
         read_only_fields = ["id"]
