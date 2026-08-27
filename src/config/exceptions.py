@@ -5,6 +5,11 @@ class UnauthorizedAccess(APIException):
     default_code = "access_not_authorized"
     default_detail = "credentials missing or invalid for accessing this resource."
 
+class UnauthorizedAction(APIException):
+    status_code = 403
+    default_code = "action_not_authorized"
+    default_detail = "the user does not have permission to perform this action."
+
 
 class ExpenseNotFound(APIException):
     status_code = 404
