@@ -14,10 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt .
 
-# NOTA: al revisar el repo, requirements.txt actualmente NO incluye gunicorn.
-# Lo instalamos aquí explícitamente para poder servir la app en producción.
-# Recomendado: agrega "gunicorn" a requirements.txt para que quede versionado.
-RUN pip install --user --no-cache-dir -r requirements.txt gunicorn
+RUN pip install --user --no-cache-dir -r requirements.txt
 
 
 # =========================================================
@@ -41,7 +38,8 @@ ENV PATH=/home/appuser/.local/bin:$PATH \
     PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=config.settings
 
-RUN chown -R appuser:appuser /app /home/appuser/.local
+RUN mkdir -p /app/src/staticfiles \
+    && chown -R appuser:appuser /app /home/appuser/.local
 USER appuser
 
 WORKDIR /app/src
@@ -50,4 +48,4 @@ EXPOSE 8000
 
 # CMD de producción. En desarrollo, docker-compose.yml lo sobreescribe
 # con "manage.py runserver" para tener autoreload.
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
