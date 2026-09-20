@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Base de datos de desarrollo (usamos Postgres en contenedor, no sqlite)
+db.sqlite3
+db.sqlite3-journal
+
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+
+# Control de versiones / editor / SO
+.git
+.gitignore
+.github/
+.vscode/
+.idea/
+.DS_Store
+
+# Archivos Docker (no necesitan estar dentro de la imagen)
+Dockerfile
+dockerfile
+docker-compose.yml
+docker-compose.override.yml
+.dockerignore
+
+# Logs
+*.log
